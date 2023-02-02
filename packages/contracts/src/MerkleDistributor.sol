@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.0;
 
-import {IERC20, SafeERC20} from "openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {INFT} from "./interfaces/INFT.sol";
 import {MerkleProof} from "openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import {IMerkleDistributor} from "./interfaces/IMerkleDistributor.sol";
 
@@ -49,7 +49,7 @@ contract MerkleDistributor is IMerkleDistributor {
 
         // Mark it claimed and send the token.
         _setClaimed(index);
-        IERC20(token).safeTransfer(account, amount);
+        INFT(token).mint(account);
 
         emit Claimed(index, account, amount);
     }
