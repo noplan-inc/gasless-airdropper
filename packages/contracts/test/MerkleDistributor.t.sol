@@ -73,6 +73,10 @@ contract ContractTest is Test {
         merkleProof[1] = hashes[5];
         vm.expectRevert(InvalidProof.selector);
         merkleDistributor.claim(0, wallet5, 1, merkleProof);
+        vm.stopPrank();
+        vm.startPrank(wallet1);
+        vm.expectRevert(InvalidProof.selector);
+        merkleDistributor.claim(1, wallet1, 1, merkleProof);
     }
 
     function testDebugMint() public {
