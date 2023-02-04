@@ -1,0 +1,21 @@
+{
+  "name": "lit-sandbox",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "send": "ts-node ./src/sendETH.ts"
+  },
+  "dependencies": {
+    "@lit-protocol/sdk-nodejs": "^1.1.242",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "lit-js-sdk": "^1.2.59",
+    "siwe": "^1.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
