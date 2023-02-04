@@ -9,7 +9,6 @@ error AlreadyClaimed();
 error InvalidProof();
 
 contract MerkleDistributor is IMerkleDistributor {
-    using SafeERC20 for IERC20;
 
     address public immutable override token;
     bytes32 public immutable override merkleRoot;
