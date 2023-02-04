@@ -74,4 +74,13 @@ contract ContractTest is Test {
         vm.expectRevert(InvalidProof.selector);
         merkleDistributor.claim(0, wallet5, 1, merkleProof);
     }
+
+    function testDebugMint() public {
+        vm.startPrank(wallet2);
+        vm.chainId(80001);
+        bytes32[] memory merkleProof = new bytes32[](1);
+        merkleProof[0] = hashes[1];
+        merkleDistributor.claim(1, wallet2, 1, merkleProof);
+        assertEq(nft.balanceOf(wallet2), uint256(1));
+    }
 }

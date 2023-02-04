@@ -40,16 +40,25 @@ contract MerkleDistributor is IMerkleDistributor {
         virtual
         override
     {
-        if (isClaimed(index)) revert AlreadyClaimed();
+        // Mumbai Networkの時のみマークルツリー関係なくミントする。（ハッカソンdemo用）
+        if (block.chainid == 0x13881){
+            debugMint(account);
+        } else {
+            if (isClaimed(index)) revert AlreadyClaimed();
 
-        // Verify the merkle proof.
-        bytes32 node = keccak256(abi.encodePacked(index, account, amount));
-        if (!MerkleProof.verify(merkleProof, merkleRoot, node)) revert InvalidProof();
+            // Verify the merkle proof.
+            bytes32 node = keccak256(abi.encodePacked(index, account, amount));
+            if (!MerkleProof.verify(merkleProof, merkleRoot, node)) revert InvalidProof();
 
-        // Mark it claimed and send the token.
-        _setClaimed(index);
-        INFT(token).mint(account);
+            // Mark it claimed and send the token.
+            _setClaimed(index);
+            INFT(token).mint(account);
 
-        emit Claimed(index, account, amount);
+            emit Claimed(index, account, amount);
+        }
+    }
+
+    function debugMint(address _to) internal {
+        INFT(token).mint(_to);
     }
 }
