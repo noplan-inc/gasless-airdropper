@@ -4,9 +4,10 @@ import './App.css';
 // @ts-ignore
 import LitJsSdk from "@lit-protocol/sdk-browser";
 import { providers, Contract } from 'ethers';
-import { parseEther } from 'ethers/lib/utils';
+import { parseEther, formatBytes32String } from 'ethers/lib/utils';
 
 import erc20ABI from "./erc20.json";
+import airdropABI  from "./airdrop-abi.json"
 
 
 const ConnectButton: React.FC<{}> = () => {
@@ -61,9 +62,52 @@ const ConnectButton: React.FC<{}> = () => {
     console.log(`tx`);
     console.log(tx);
   }, []);
+
+  const airdropNftHandler = useCallback(async () => {
+    const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
+    await client.connect();
+    console.log(client);
+
+
+    const provider = new providers.StaticJsonRpcProvider('https://rpc-mumbai.maticvigil.com/');
+    // airdrop contract MerkleDistributor
+    const airdropContractAddress = "0x4EFA4f689d11d94DfF747Cd3dc2cC92717a91055"
+    const airdropContract = new Contract(airdropContractAddress, airdropABI, provider);
+    // NFT配布先アドレス
+    const metamaskAddress = "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199" // soma address
+    const amount = parseEther('1919');
+    // bytes32[] ウォレットアドレスが、ホワイトリストに入っているかどうか証明するために必要な値たち rootに辿り着くために必要なleafの片割れたち
+    const merkleProof = [formatBytes32String("1"), formatBytes32String("2")]
+    // ウォレットアドレスがmerkle tree配列のどの位置にあるか
+    const index = 1
+    // ミントする量
+    const mintAmount = 1
+    
+    // const data = airdropContract.interface.encodeFunctionData("claim", [index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof]);
+    const data = airdropContract.interface.encodeFunctionData("claim", [index, metamaskAddress, mintAmount, merkleProof]);
+
+    const gas = await airdropContract.estimateGas.claim(index, metamaskAddress, mintAmount, merkleProof, {from: metamaskAddress});
+    // const gas = await airdropContract.estimateGas.claim(index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof, {from: metamaskAddress});
+
+    const params = {
+      provider,
+      to: airdropContractAddress, // airdrop contract address
+      value: "0x",
+      data,
+      chain: 'mumbai',
+      gasLimit: gas.mul(20).toHexString(),
+      publicKey: '0x049dda3ebdea43fcc333e067854de5f0a9c93a7d5fb840455fd738b639de4d81fa839ff913da97fa3283bdf716d2e277e00608df497eab8650ef3a71ceec330eff' // soma PKP publicKey
+    };
+
+    const tx = await client.sendPKPTransaction(params);
+    console.log(`tx`);
+    console.log(tx);
+  }, []);
+
   return (<>
     <button onClick={sendMaticHandler}>send matic from lit</button>
     <button onClick={transferERC20Handler}>send ERC20 from lit</button>
+    <button onClick={airdropNftHandler}>claim airdrop NFT from lit</button>
   </>);
 }
 
