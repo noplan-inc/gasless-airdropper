@@ -83,11 +83,11 @@ const ConnectButton: React.FC<{}> = () => {
     // ミントする量
     const mintAmount = 1
     
-    // const data = airdropContract.interface.encodeFunctionData("claim", [index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof]);
-    const data = airdropContract.interface.encodeFunctionData("claim", [index, metamaskAddress, mintAmount, merkleProof]);
+    const data = airdropContract.interface.encodeFunctionData("claim", [index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof]);
+    // const data = airdropContract.interface.encodeFunctionData("claim", [index, metamaskAddress, mintAmount, merkleProof]);
 
-    const gas = await airdropContract.estimateGas.claim(index, metamaskAddress, mintAmount, merkleProof, {from: metamaskAddress});
-    // const gas = await airdropContract.estimateGas.claim(index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof, {from: metamaskAddress});
+    // const gas = await airdropContract.estimateGas.claim(index, metamaskAddress, mintAmount, merkleProof, {from: metamaskAddress});
+    const gas = await airdropContract.estimateGas.claim(index, "0xc9b1CF19765d4DB31024AdFE09D14603cD56a476", mintAmount, merkleProof, {from: metamaskAddress});
 
     const params = {
       provider,
@@ -95,7 +95,7 @@ const ConnectButton: React.FC<{}> = () => {
       value: "0x",
       data,
       chain: 'mumbai',
-      gasLimit: gas.mul(20).toHexString(),
+      gasLimit: gas.mul(2).toHexString(),
       publicKey: '0x049dda3ebdea43fcc333e067854de5f0a9c93a7d5fb840455fd738b639de4d81fa839ff913da97fa3283bdf716d2e277e00608df497eab8650ef3a71ceec330eff' // soma PKP publicKey
     };
 
