@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
-import Head from "next/head";
 import { Header } from "@/components/header";
 import { Box, Button, Image } from "@chakra-ui/react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
