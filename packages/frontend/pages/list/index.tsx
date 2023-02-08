@@ -1,14 +1,17 @@
 import type { NextPage } from "next";
-import { Header } from "@/components/header";
+import { Layout } from "@/components/Layout";
+import { Box } from "@chakra-ui/react";
 
 const List: NextPage = () => {
   return (
-    <>
-      <main>
-        <Header />
-        MintされたToken一覧
-      </main>
-    </>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      flexDirection="column"
+    >
+      <Layout>MintされたToken一覧</Layout>
+    </Box>
   );
 };
 
