@@ -1,0 +1,6 @@
+{
+    "sig": "0xba54ea1fcae82bf025707310d6a72c423bf69d837c88e5d61c0c2960ec078d0a112f262272455492059e607c336b98591ee730b6d51617f8e0496f6de328d0431b", 
+    "derivedVia": "web3.eth.personal.sign",
+    "signedMessage": "let's mint gasless NFT !!!!!", 
+    "address": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199"
+}
