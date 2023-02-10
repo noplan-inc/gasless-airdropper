@@ -5,5 +5,6 @@ pragma solidity ^0.8.0;
 
 interface INFT{
     function mint(address to) external;
+    function safeMint(address to, string calldata uri) external;
 }
 

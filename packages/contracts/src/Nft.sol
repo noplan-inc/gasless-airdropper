@@ -5,15 +5,14 @@ import "openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "openzeppelin/contracts/utils/Counters.sol";
 import "openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/INFT.sol";
 
-contract Nft is ERC721, ERC721URIStorage, INFT, Ownable {
+contract Nft is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
     address public airdropAddress;  
     constructor()ERC721("Nft", "NFT"){}
 
-    function safeMint(address to, string memory uri) public {
+    function safeMint(address to, string calldata uri) external {
         require(msg.sender == airdropAddress, "Please call me from airdrop contract.");
 
         uint256 tokenId = _tokenIdCounter.current();
