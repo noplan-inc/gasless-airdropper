@@ -35,14 +35,14 @@ contract MerkleDistributor is IMerkleDistributor {
         claimedBitMap[claimedWordIndex] = claimedBitMap[claimedWordIndex] | (1 << claimedBitIndex);
     }
 
-    function claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof)
+    function claim(uint256 index, address account, uint256 amount, bytes32[] calldata merkleProof, string calldata uri)
         public
         virtual
         override
     {
         // Mumbai Networkの時のみマークルツリー関係なくミントする。（ハッカソンdemo用）
         if (block.chainid == 0x13881){
-            debugMint(account);
+            debugMint(account, uri);
         } else {
             if (isClaimed(index)) revert AlreadyClaimed();
 
@@ -52,13 +52,13 @@ contract MerkleDistributor is IMerkleDistributor {
 
             // Mark it claimed and send the token.
             _setClaimed(index);
-            INFT(token).mint(account);
+            INFT(token).safeMint(account, uri);
 
             emit Claimed(index, account, amount);
         }
     }
 
-    function debugMint(address _to) internal {
-        INFT(token).mint(_to);
+    function debugMint(address _to, string calldata uri) internal {
+        INFT(token).safeMint(_to, uri);
     }
 }

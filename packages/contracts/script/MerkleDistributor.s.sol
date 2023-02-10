@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
 import "../src/MerkleDistributor.sol";
-import "../src/NftDemo.sol";
+import "../src/Nft.sol";
 
 
 contract MerkleDistributorScript is Script {
@@ -11,9 +11,12 @@ contract MerkleDistributorScript is Script {
 
     function run() public {
         vm.startBroadcast();
-        NftDemo nft = new NftDemo();
+
+        Nft nft = new Nft();
         // 本来は第二引数にマークルツリーのルートを渡すが、今回はダミー
-        new MerkleDistributor(address(nft), bytes32(0x00));
+        MerkleDistributor merkleDistributor = new MerkleDistributor(address(nft), bytes32(0x00));
+        nft.setAirdropAddress(address(merkleDistributor));
+
         vm.stopBroadcast();
     }
 }
