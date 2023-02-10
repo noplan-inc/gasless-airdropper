@@ -4,7 +4,7 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import "../src/MerkleDistributor.sol";
-import "../src/NftDemo.sol";
+import "../src/Nft.sol";
 
 contract ContractTest is Test {
     address private wallet1;
@@ -13,7 +13,7 @@ contract ContractTest is Test {
     address private wallet4;
     address private wallet5;
     bytes32[] private hashes;
-    NftDemo private nft;
+    Nft private nft;
     MerkleDistributor private merkleDistributor;
     function setUp() public {
         wallet1 = vm.addr(0x01);
@@ -22,7 +22,7 @@ contract ContractTest is Test {
         wallet4 = vm.addr(0x04);
         wallet5 = vm.addr(0x05); //dummy
         createMerkleTree([wallet1, wallet2, wallet3, wallet4]);
-        nft = new NftDemo();
+        nft = new Nft();
         merkleDistributor = new MerkleDistributor(address(nft), hashes[hashes.length - 1]);
 
     }
