@@ -186,10 +186,22 @@ const ConnectButton: React.FC<{}> = () => {
     console.log(tx);
   }, []);
 
+  const generateAuthSig = async () => {
+    const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
+    await client.connect();
+    const chain = "mumbai";
+    const oneYear = 365;
+    const expiration = new Date(Date.now() + 1000 * 60 * 60 * 24 * oneYear).toISOString();
+
+    const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain,  expiration});
+    console.log(authSig);
+  }
+
   return (<>
     <button onClick={sendMaticHandler}>send matic from lit</button>
     <button onClick={transferERC20Handler}>send ERC20 from lit</button>
     <button onClick={airdropNftHandler}>claim airdrop NFT from lit</button>
+    <button onClick={generateAuthSig}>generate authSig 1year</button>
   </>);
 }
 
