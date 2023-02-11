@@ -38,6 +38,7 @@ const sendPKPTransaction = async (params: {client: any, chain: string, publicKey
       name: "MissingPublicKey",
       errorCode: "missing_public_key",
     });
+    return;
   }
 
   // const authSig = await checkAndSignAuthMessage({ chain });
