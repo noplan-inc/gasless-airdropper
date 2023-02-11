@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { Box, Button, Image } from "@chakra-ui/react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
@@ -8,11 +8,34 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 // @ts-ignore
 import LitJsSdk from "@lit-protocol/sdk-browser";
 import { providers, Contract } from "ethers";
-import erc721ABI from "../../abi/erc721.json";
+import airdropABI from "../../abi/airdrop.json";
+import nftABI from "../../abi/nft.json";
+import { metaData } from "../../metaData";
+import axios from "axios";
 import { serialize } from "@ethersproject/transactions";
 
-const sendPKPTransaction = async (params: {client: any, chain: string, publicKey: string, provider: providers.JsonRpcProvider, to: string, value: string, data: string, gasPrice: string, gasLimit: string}) => {
-  const {client, chain, publicKey, provider, to, value, data, gasPrice, gasLimit} = params;
+const sendPKPTransaction = async (params: {
+  client: any;
+  chain: string;
+  publicKey: string;
+  provider: providers.JsonRpcProvider;
+  to: string;
+  value: string;
+  data: string;
+  gasPrice: string;
+  gasLimit: string;
+}) => {
+  const {
+    client,
+    chain,
+    publicKey,
+    provider,
+    to,
+    value,
+    data,
+    gasPrice,
+    gasLimit,
+  } = params;
   if (!client.ready) {
     console.error({
       message:
@@ -43,10 +66,11 @@ const sendPKPTransaction = async (params: {client: any, chain: string, publicKey
   }
 
   const authSig = {
-    "sig": "0xdd290f886395b4f21881ef731864cc6ec01011258468a176abb68072b4ee669732eafc12d5e6cd60b8fa540cef72503c873d1b03931ea67137f206b0c697de421b",
-    "derivedVia": "web3.eth.personal.sign",
-    "signedMessage": "localhost:3000 wants you to sign in with your Ethereum account:\n0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492\n\n\nURI: http://localhost:3000/\nVersion: 1\nChain ID: 80001\nNonce: YCXlAZq0Nix4t6VZx\nIssued At: 2023-02-11T06:14:52.407Z\nExpiration Time: 2024-02-11T06:14:52.379Z",
-    "address": "0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492"
+    sig: "0xdd290f886395b4f21881ef731864cc6ec01011258468a176abb68072b4ee669732eafc12d5e6cd60b8fa540cef72503c873d1b03931ea67137f206b0c697de421b",
+    derivedVia: "web3.eth.personal.sign",
+    signedMessage:
+      "localhost:3000 wants you to sign in with your Ethereum account:\n0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492\n\n\nURI: http://localhost:3000/\nVersion: 1\nChain ID: 80001\nNonce: YCXlAZq0Nix4t6VZx\nIssued At: 2023-02-11T06:14:52.407Z\nExpiration Time: 2024-02-11T06:14:52.379Z",
+    address: "0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492",
   };
 
   const signLitTransaction = `
@@ -91,7 +115,7 @@ const sendPKPTransaction = async (params: {client: any, chain: string, publicKey
   const signature = signResult.signatures["sig1"].signature;
   const serializedTx = serialize(tx, signature);
   return provider.sendTransaction(serializedTx);
-}
+};
 
 const Home: NextPage = () => {
   const { address, isConnected } = useAccount();
@@ -100,49 +124,74 @@ const Home: NextPage = () => {
   });
   const { disconnect } = useDisconnect();
   const [txHash, setTxHash] = useState("");
+  const [imageUri, setImageUri] = useState("");
 
-  const connectWallet = () => {
-    const mint = async () => {
-      const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
-      await client.connect();
+  const provider = new providers.StaticJsonRpcProvider(
+    "https://rpc-mumbai.maticvigil.com/"
+  );
 
-      const erc721Address = "0x3A38Ff8d6276A6f26f86Add204bf9996e47dEBdc";
+  const mint = async () => {
+    const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
+    await client.connect();
 
-      const provider = new providers.StaticJsonRpcProvider(
-        "https://rpc-mumbai.maticvigil.com/"
-      );
-      const erc20 = new Contract(erc721Address, erc721ABI, provider);
+    const airdropAddress = "0xb1b3d3930eC3A721Db287D21c1ff0541C2Fc5849";
 
-      const data = erc20.interface.encodeFunctionData("safeMint", [
-        address,
-        "uri",
-      ]);
+    const airdrop = new Contract(airdropAddress, airdropABI, provider);
 
-      const gas = await erc20.estimateGas.safeMint(address, "uri", {
-        from: address,
-      });
+    const metaDataIndex = Math.floor(Math.random() * 11);
+    const uri = metaData[metaDataIndex];
 
-      const params = {
-        client,
-        provider,
-        to: erc721Address,
-        value: "0x",
-        data,
-        chain: "mumbai",
-        gasPrice: "0x2e90edd000",
-        gasLimit: gas.mul(2).toHexString(),
-        publicKey: '0x04cbacd8249dd6ee4428e5d8bd9153c4306d140e1488a6f44ccbed03e924716ac8078ee08fd06b948fa9a2addd17ffc7108852562333c2374944b55423f1f5645c'
-      };
+    const data = airdrop.interface.encodeFunctionData("claim", [
+      0,
+      address,
+      0,
+      [],
+      uri,
+    ]);
 
-      const tx = await sendPKPTransaction(params);
-      if (!tx) {
-        alert('failed to mint');
-        return;
-      }
-      setTxHash(tx.hash);
+    const gas = await airdrop.estimateGas.claim(0, address, 0, [], uri, {
+      from: address,
+    });
+
+    const params = {
+      client,
+      provider,
+      to: airdropAddress,
+      value: "0x",
+      data,
+      chain: "mumbai",
+      gasPrice: "0x2e90edd000",
+      gasLimit: gas.mul(2).toHexString(),
+      publicKey:
+        "0x04cbacd8249dd6ee4428e5d8bd9153c4306d140e1488a6f44ccbed03e924716ac8078ee08fd06b948fa9a2addd17ffc7108852562333c2374944b55423f1f5645c",
     };
-    return mint();
+
+    const tx = await sendPKPTransaction(params);
+    if (!tx) {
+      alert("failed to mint");
+      return;
+    }
+    setTxHash(tx.hash);
   };
+
+  useEffect(() => {
+    (async () => {
+      const erc721 = new Contract(
+        "0xae1294597e6FB5eeA6cCEf498ED736de9573d677",
+        nftABI,
+        provider
+      );
+      const uri = await erc721.tokenURI(3);
+      try {
+        const res = await axios.get(uri, {
+          timeout: 5000,
+        });
+        setImageUri(res.data.image);
+      } catch (error: any) {
+        console.error(error);
+      }
+    })();
+  }, [txHash]);
 
   return (
     <Box
@@ -159,7 +208,7 @@ const Home: NextPage = () => {
               <Button onClick={() => disconnect()}>Disconnect</Button>
             </Box>
             <Box>
-              <Button onClick={() => connectWallet()}>mint</Button>
+              <Button onClick={() => mint()}>mint</Button>
             </Box>
           </>
         )}
@@ -169,12 +218,7 @@ const Home: NextPage = () => {
               {address}
               <Button onClick={() => disconnect()}>Disconnect</Button>
             </Box>
-            <Image
-              src="/images/kari.png"
-              alt={"logo"}
-              width={100}
-              height={100}
-            />
+            <Image src={imageUri} alt={"logo"} width={100} height={100} />
             こんぐらっちゅれいしょん
             <Box>
               <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`}>
