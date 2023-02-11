@@ -42,7 +42,12 @@ const sendPKPTransaction = async (params: {client: any, chain: string, publicKey
   }
 
   // const authSig = await checkAndSignAuthMessage({ chain });
-  const authSig = {"sig":"0x0ffebac3b0fedb83bc7fa09add9ed666e9c6580c565d7e1bf47352919741733b33ba195365e5d47cb242046b19b8355f90ea7a94e604453264d0fe8bf9ea453b1c","derivedVia":"web3.eth.personal.sign","signedMessage":"localhost:3000 wants you to sign in with your Ethereum account:\n0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492\n\n\nURI: http://localhost:3000/\nVersion: 1\nChain ID: 80001\nNonce: eKvpdS7Jd7P5GokkK\nIssued At: 2023-02-11T05:40:29.068Z\nExpiration Time: 2023-02-18T05:40:24.733Z","address":"0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492"};
+  const authSig = {
+    "sig": "0xdd290f886395b4f21881ef731864cc6ec01011258468a176abb68072b4ee669732eafc12d5e6cd60b8fa540cef72503c873d1b03931ea67137f206b0c697de421b",
+    "derivedVia": "web3.eth.personal.sign",
+    "signedMessage": "localhost:3000 wants you to sign in with your Ethereum account:\n0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492\n\n\nURI: http://localhost:3000/\nVersion: 1\nChain ID: 80001\nNonce: YCXlAZq0Nix4t6VZx\nIssued At: 2023-02-11T06:14:52.407Z\nExpiration Time: 2024-02-11T06:14:52.379Z",
+    "address": "0x35ae1BDaBcbAa739A95ddb8A33fA6Db5ad2EC492"
+  };
 
   const signLitTransaction = `
     (async () => {
