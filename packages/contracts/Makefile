@@ -4,10 +4,10 @@ deploy:
 	forge script ./script/MerkleDistributor.s.sol:MerkleDistributorScript \
 	--chain-id 80001 \
 	--rpc-url $(ETH_RPC_URL) \
-    --private-key $(PRIVATE_KEY) \
-    --etherscan-api-key $(ETHERSCAN_API_KEY) \
+	--private-key $(PRIVATE_KEY) \
+	--etherscan-api-key $(ETHERSCAN_API_KEY) \
 	--broadcast \
-    --verify \
+	--verify \
 	-vvvv
 
 verify:
