@@ -24,6 +24,7 @@ contract ContractTest is Test {
         createMerkleTree([wallet1, wallet2, wallet3, wallet4]);
         nft = new Nft();
         merkleDistributor = new MerkleDistributor(address(nft), hashes[hashes.length - 1]);
+        nft.setAirdropAddress(address(merkleDistributor));
 
     }
 
