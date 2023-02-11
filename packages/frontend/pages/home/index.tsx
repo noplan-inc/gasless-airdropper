@@ -8,7 +8,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 // @ts-ignore
 import LitJsSdk from "@lit-protocol/sdk-browser";
 import { providers, Contract } from "ethers";
-import erc721ABI from "../../abi/erc721.json";
+import airdropABI from "../../abi/airdrop.json";
 
 const Home: NextPage = () => {
   const { address, isConnected } = useAccount();
@@ -23,25 +23,35 @@ const Home: NextPage = () => {
       const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
       await client.connect();
 
-      const erc721Address = "0x3A38Ff8d6276A6f26f86Add204bf9996e47dEBdc";
+      const airdropAddress = "0xb1b3d3930eC3A721Db287D21c1ff0541C2Fc5849";
 
       const provider = new providers.StaticJsonRpcProvider(
         "https://rpc-mumbai.maticvigil.com/"
       );
-      const erc20 = new Contract(erc721Address, erc721ABI, provider);
+      const airdrop = new Contract(airdropAddress, airdropABI, provider);
 
-      const data = erc20.interface.encodeFunctionData("safeMint", [
+      const data = airdrop.interface.encodeFunctionData("claim", [
+        0,
         address,
+        0,
+        [],
         "uri",
       ]);
 
-      const gas = await erc20.estimateGas.safeMint(address, "uri", {
-        from: address,
-      });
+      const gas = await airdrop.estimateGas.claim(
+        0,
+        address,
+        0,
+        [],
+        "uri",
+        {
+          from: address,
+        }
+      );
 
       const params = {
         provider,
-        to: erc721Address,
+        to: airdropAddress,
         value: "0x",
         data,
         chain: "mumbai",
