@@ -10,7 +10,7 @@ import LitJsSdk from "@lit-protocol/sdk-browser";
 import { providers, Contract } from "ethers";
 import airdropABI from "../../abi/airdrop.json";
 import nftABI from "../../abi/nft.json";
-import { metaData } from "./metaData";
+import { metaData } from "../../metaData";
 import axios from "axios";
 import { serialize } from "@ethersproject/transactions";
 
