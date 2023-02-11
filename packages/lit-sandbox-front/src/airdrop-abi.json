@@ -71,6 +71,11 @@
           "internalType": "bytes32[]",
           "name": "merkleProof",
           "type": "bytes32[]"
+        },
+        {
+          "internalType": "string",
+          "name": "uri",
+          "type": "string"
         }
       ],
       "name": "claim",
@@ -123,4 +128,4 @@
       "stateMutability": "view",
       "type": "function"
     }
-  ]
+]
