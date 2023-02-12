@@ -11,7 +11,7 @@ https://www.canva.com/design/DAFZ_eLoFgo/ICO3g2xu8Ssr_0Bv0Z38wQ/view?utm_content
 ## アプリケーションの起動方法
 
 ```
-cd `packages/frontend`
+cd packages/frontend
 ```
 
 ```
