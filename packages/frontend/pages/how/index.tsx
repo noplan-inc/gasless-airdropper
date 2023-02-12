@@ -12,9 +12,18 @@ const How: NextPage = () => {
       flexDirection="column"
     >
       <Layout>
-        <h1>仕組み</h1>
-        <Link href={"https://www.canva.com/design/DAFZ_eLoFgo/ICO3g2xu8Ssr_0Bv0Z38wQ/view?utm_content=DAFZ_eLoFgo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink"} target="_blank"><Text textDecoration={"underline"}>こちらで紹介しています</Text></Link>
-      </Layout>      
+        <h1>How it works</h1>
+        <Link
+          href={
+            "https://www.canva.com/design/DAFZ_eLoFgo/ICO3g2xu8Ssr_0Bv0Z38wQ/view?utm_content=DAFZ_eLoFgo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink"
+          }
+          target="_blank"
+        >
+          <Text textDecoration={"underline"}>
+            It is explained at this link.
+          </Text>
+        </Link>
+      </Layout>
     </Box>
   );
 };

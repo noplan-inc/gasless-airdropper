@@ -19,9 +19,6 @@ export const Layout = ({ children }: any) => {
       <Box>
         <Image src="/images/logo.png" alt={"logo"} width={100} height={100} />
       </Box>
-      <Box>
-        <Link href="/how">仕組みの解説はこちら</Link>
-      </Box>
       {children}
     </>
   );
