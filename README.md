@@ -6,19 +6,19 @@ https://gasless-airdropper.vercel.app/
 
 ## 概要
 
-<!-- ここに概要を書く -->
+https://www.canva.com/design/DAFZ_eLoFgo/ICO3g2xu8Ssr_0Bv0Z38wQ/view?utm_content=DAFZ_eLoFgo&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink#1
 
-### 仕組み
+## アプリケーションの起動方法
 
-## このリポジトリについて
+```
+cd `packages/frontend`
+```
 
-### `packages/contracts`
+```
+yarn install --frozen-lockfile
+```
 
-### `packages/frontend`
-
-- フロントエンドアプリケーション。
-
-## 詳細情報
+`http://localhost:3000/` へアクセス。
 
 ### 使用した tech stacks
 
@@ -34,12 +34,8 @@ _Smartcontract_
 - Foundry
 - OpenZeppelin
 
-### 使用した Blockchain
+### 使用した Blockchain tech stacks
 
 - the graph
 - lit protocal
 - Areweave
-
-### deploy した Contract(Explorer で OK）
-
-## アプリケーションの起動方法
