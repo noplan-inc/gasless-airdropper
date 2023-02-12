@@ -124,6 +124,7 @@ const Home: NextPage = () => {
   });
   const { disconnect } = useDisconnect();
   const [txHash, setTxHash] = useState("");
+  const [isMinting, setIsMinting] = useState(false);
   const [imageUri, setImageUri] = useState("");
 
   const provider = new providers.StaticJsonRpcProvider(
@@ -131,6 +132,7 @@ const Home: NextPage = () => {
   );
 
   const mint = async () => {
+    setIsMinting(true);
     const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
     await client.connect();
 
@@ -205,10 +207,10 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
             </Box>
             <Box>
-              <Button onClick={() => mint()}>mint</Button>
+              <Button p={4} m={4} onClick={() => mint()} disabled={isMinting}>{ isMinting?  "minting..." : "mint"}</Button>
             </Box>
           </>
         )}
@@ -216,19 +218,19 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
             </Box>
             <Image src={imageUri} alt={"logo"} width={100} height={100} />
             こんぐらっちゅれいしょん
             <Box>
-              <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`}>
+              <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`} target="_blank">
                 https://mumbai.polygonscan.com/tx/${txHash}
               </Link>
             </Box>
           </>
         )}
         {!isConnected && !txHash && (
-          <Button onClick={() => connect()}>Connect</Button>
+          <Button p={4} m={4} onClick={() => connect()}>Connect</Button>
         )}
       </Layout>
     </Box>

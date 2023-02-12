@@ -1,19 +1,18 @@
 import Link from "next/link";
 import { Image } from "@chakra-ui/react";
 import { Box, Button } from "@chakra-ui/react";
-import { ReactElement } from "react";
 
 export const Layout = ({ children }: any) => {
   return (
     <>
       <Box display="flex" justifyContent="center" alignItems="center">
-        <Button>
+        <Button p={4} mx={8} my={16}>
           <Link href="/list">List</Link>
         </Button>
-        <Button>
+        <Button p={4} mx={8} my={16}>
           <Link href="/home">Home</Link>
         </Button>
-        <Button>
+        <Button p={4} mx={8} my={16}>
           <Link href="/how">How</Link>
         </Button>
       </Box>
