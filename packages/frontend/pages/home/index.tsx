@@ -219,7 +219,7 @@ const Home: NextPage = () => {
             こんぐらっちゅれいしょん
             <Box>
               <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`} target="_blank">
-                https://mumbai.polygonscan.com/tx/${txHash}
+                https://mumbai.polygonscan.com/tx/{txHash}
               </Link>
             </Box>
           </>
