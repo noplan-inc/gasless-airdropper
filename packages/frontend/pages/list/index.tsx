@@ -55,7 +55,7 @@ const List: NextPage = () => {
         }
       }
     })();
-  }, [data]);
+  }, [data, error, imageList, loading]);
 
   return (
     <>
@@ -65,7 +65,7 @@ const List: NextPage = () => {
         alignItems="center"
         flexDirection="column"
       >
-        <Layout>MintされたToken一覧</Layout>
+        <Layout>List of minted TOKEN</Layout>
         <Box width={250}>{imageList}</Box>
       </Box>
     </>

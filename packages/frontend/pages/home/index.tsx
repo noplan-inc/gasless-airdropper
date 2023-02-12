@@ -142,7 +142,7 @@ const Home: NextPage = () => {
 
     const metaDataIndex = Math.floor(Math.random() * 11);
     const uri = metaData[metaDataIndex];
-    setMetaDataUri(uri)
+    setMetaDataUri(uri);
 
     const data = airdrop.interface.encodeFunctionData("claim", [
       0,
@@ -202,10 +202,14 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>
+                Disconnect
+              </Button>
             </Box>
             <Box>
-              <Button p={4} m={4} onClick={() => mint()} disabled={isMinting}>{ isMinting?  "minting..." : "mint"}</Button>
+              <Button p={4} m={4} onClick={() => mint()} disabled={isMinting}>
+                {isMinting ? "minting..." : "mint"}
+              </Button>
             </Box>
           </>
         )}
@@ -213,19 +217,26 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>
+                Disconnect
+              </Button>
             </Box>
             <Image src={imageUri} alt={"logo"} width={100} height={100} />
-            こんぐらっちゅれいしょん
+            Congratulation 🎉
             <Box>
-              <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`} target="_blank">
+              <Link
+                href={`https://mumbai.polygonscan.com/tx/${txHash}`}
+                target="_blank"
+              >
                 https://mumbai.polygonscan.com/tx/{txHash}
               </Link>
             </Box>
           </>
         )}
         {!isConnected && !txHash && (
-          <Button p={4} m={4} onClick={() => connect()}>Connect</Button>
+          <Button p={4} m={4} onClick={() => connect()}>
+            Connect
+          </Button>
         )}
       </Layout>
     </Box>
