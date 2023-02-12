@@ -55,7 +55,7 @@ const List: NextPage = () => {
         }
       }
     })();
-  }, [data, error, imageList, loading]);
+  }, [data, error, loading]);
 
   return (
     <>
