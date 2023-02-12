@@ -26,6 +26,12 @@ yarn install --frozen-lockfile
 ### `packages/frontend`
 
 - フロントエンドアプリケーション。
+    - Home
+        - Connectボタンを押すとmetamaskと接続する。metamaskのネットワークでmumbaiを選択しmintボタンを押すとNFTをmintすることができる。
+    - List
+        - このコントラクトでmintされたNFTの画像一覧が表示される。
+    - How
+        - このプロダクトの説明をしたスライドのリンクがある。
 
 ### `packages/contract`
 - コントラクト
@@ -40,6 +46,8 @@ yarn install --frozen-lockfile
 
 
 ### 使用した tech stacks
+_Blockchain_
+- Mumbai testnet
 
 _Frontend_
 
@@ -59,7 +67,7 @@ _Smartcontract_
 - Lit Protocol
 - Arweave
 
-### deploy した Contract(Explorer で OK）
+### deploy した Contract
 
 [Airdrop](https://mumbai.polygonscan.com/address/0xb1b3d3930ec3a721db287d21c1ff0541c2fc5849)
 
