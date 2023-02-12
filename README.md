@@ -18,10 +18,6 @@ https://gasless-airdropper.vercel.app/
 
 - フロントエンドアプリケーション。
 
-### `packages/hardhat-sandbox`
-
-### `packages/lit-sandbox`
-
 ## 詳細情報
 
 ### 使用した tech stacks
