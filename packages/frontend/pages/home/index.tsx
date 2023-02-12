@@ -9,7 +9,6 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import LitJsSdk from "@lit-protocol/sdk-browser";
 import { providers, Contract } from "ethers";
 import airdropABI from "../../abi/airdrop.json";
-import nftABI from "../../abi/nft.json";
 import { metaData } from "../../metaData";
 import axios from "axios";
 import { serialize } from "@ethersproject/transactions";
@@ -126,6 +125,7 @@ const Home: NextPage = () => {
   const [txHash, setTxHash] = useState("");
   const [isMinting, setIsMinting] = useState(false);
   const [imageUri, setImageUri] = useState("");
+  const [metaDataUri, setMetaDataUri] = useState("");
 
   const provider = new providers.StaticJsonRpcProvider(
     "https://rpc-mumbai.maticvigil.com/"
@@ -142,6 +142,7 @@ const Home: NextPage = () => {
 
     const metaDataIndex = Math.floor(Math.random() * 11);
     const uri = metaData[metaDataIndex];
+    setMetaDataUri(uri)
 
     const data = airdrop.interface.encodeFunctionData("claim", [
       0,
@@ -178,14 +179,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     (async () => {
-      const erc721 = new Contract(
-        "0xae1294597e6FB5eeA6cCEf498ED736de9573d677",
-        nftABI,
-        provider
-      );
-      const uri = await erc721.tokenURI(3);
       try {
-        const res = await axios.get(uri, {
+        const res = await axios.get(metaDataUri, {
           timeout: 5000,
         });
         setImageUri(res.data.image);
@@ -193,7 +188,7 @@ const Home: NextPage = () => {
         console.error(error);
       }
     })();
-  }, [txHash]);
+  }, [txHash, metaDataUri]);
 
   return (
     <Box
