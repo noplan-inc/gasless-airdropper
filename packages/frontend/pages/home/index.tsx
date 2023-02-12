@@ -100,9 +100,11 @@ const Home: NextPage = () => {
   });
   const { disconnect } = useDisconnect();
   const [txHash, setTxHash] = useState("");
+  const [isMinting, setIsMinting] = useState(false);
 
   const connectWallet = () => {
     const mint = async () => {
+      setIsMinting(true);
       const client = new LitJsSdk.LitNodeClient({ litNetwork: "serrano" });
       await client.connect();
 
@@ -140,6 +142,7 @@ const Home: NextPage = () => {
         return;
       }
       setTxHash(tx.hash);
+      setIsMinting(false);
     };
     return mint();
   };
@@ -156,10 +159,10 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
             </Box>
             <Box>
-              <Button onClick={() => connectWallet()}>mint</Button>
+              <Button p={4} m={4} onClick={() => connectWallet()} disabled={isMinting}>{ isMinting?  "minting..." : "mint"}</Button>
             </Box>
           </>
         )}
@@ -167,7 +170,7 @@ const Home: NextPage = () => {
           <>
             <Box>
               {address}
-              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <Button p={4} m={4} onClick={() => disconnect()}>Disconnect</Button>
             </Box>
             <Image
               src="/images/kari.png"
@@ -177,14 +180,14 @@ const Home: NextPage = () => {
             />
             こんぐらっちゅれいしょん
             <Box>
-              <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`}>
+              <Link href={`https://mumbai.polygonscan.com/tx/${txHash}`} target="_blank">
                 https://mumbai.polygonscan.com/tx/${txHash}
               </Link>
             </Box>
           </>
         )}
         {!isConnected && !txHash && (
-          <Button onClick={() => connect()}>Connect</Button>
+          <Button p={4} m={4} onClick={() => connect()}>Connect</Button>
         )}
       </Layout>
     </Box>
